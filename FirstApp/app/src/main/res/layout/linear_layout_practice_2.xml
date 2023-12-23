@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:backgroundTint="@color/white">
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginBottom="9dp"
+        android:layout_weight="1"
+        android:background="#CECFCF"
+        android:paddingTop="425dp"
+        android:text="LOGIN"
+        android:textAlignment="center"
+        android:textColor="#0C0C0C"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginBottom="9dp"
+        android:layout_weight="1"
+        android:background="#CECFCF"
+        android:paddingTop="425dp"
+        android:text="REGISTER"
+        android:textAlignment="center"
+        android:textColor="#0C0C0C"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginBottom="9dp"
+        android:layout_weight="1"
+        android:background="#CECFCF"
+        android:paddingTop="425dp"
+        android:text="RESET"
+        android:textAlignment="center"
+        android:textColor="#0C0C0C"
+        android:textStyle="bold" />
+
+</LinearLayout>

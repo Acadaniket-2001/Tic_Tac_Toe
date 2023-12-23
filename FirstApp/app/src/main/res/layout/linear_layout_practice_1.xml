@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:backgroundTint="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="12dp"
+        android:background="#CECFCF"
+        android:paddingTop="15dp"
+        android:text="LOGIN"
+        android:textAlignment="center"
+        android:textColor="#0C0C0C"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="12dp"
+        android:background="#CECFCF"
+        android:paddingTop="15dp"
+        android:text="REGISTER"
+        android:textAlignment="center"
+        android:textColor="#0C0C0C"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="12dp"
+        android:background="#CECFCF"
+        android:paddingTop="15dp"
+        android:text="RESET"
+        android:textAlignment="center"
+        android:textColor="#0C0C0C"
+        android:textStyle="bold" />
+
+</LinearLayout>

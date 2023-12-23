@@ -1,0 +1,529 @@
+    /*-----------------------------------Debugging--------------------------------------------
+
+        setContentView(R.layout.actionEvents)
+        println("Hello World !")
+        //begin logging
+            Log.d("MainActivity", "Hello World !")
+            // MainActivity -> class Name to identify where Error occured
+            // Hello World ! -> debugging msg
+            // Log.d() -> d for Debugging, Log.e() -> error,  Log.i() -> info, Log.wtf() -> What a terrible failure ?
+
+            val x: String? = "Aniket"
+            val y: String? = null
+
+            Log.d("MainActivity", (x!!.length + y!!.length).toString())
+        //end debugging
+
+//        ----------------------------------------------------------------------------------------*/
+
+        /*------------------------------Action Events--------------------------------------------
+
+        setContentView(R.layout.action_events_1)
+
+        val t1: TextView = findViewById(R.id.name_field)
+        val b1: Button = findViewById(R.id.name_button)
+
+        var listener = object: View.OnClickListener {     // method 1
+            override fun onClick(v: View?) {
+                t1.setText(R.string.my_name)
+            }
+        }
+        b1.setOnClickListener(listener)
+
+//        b1.setOnClickListener {                         // method 2 -> using lambda function
+//            t1.setText(R.string.my_name)
+//        }
+
+
+        val v1: EditText = findViewById(R.id.msg_field)
+        val b2: Button = findViewById(R.id.msg_button)
+        b2.setOnClickListener {
+            Toast.makeText(this, v1.text, Toast.LENGTH_LONG).show()
+        }
+
+        ---------------------------------------------------------------------------------------*/
+
+        /*------------------------------------Counter--------------------------------------------
+
+        setContentView(R.layout.action_events_counter)
+
+        var t1: TextView = findViewById(R.id.counter_field)
+        var b1: Button = findViewById(R.id.counter_button)
+        var b2: Button = findViewById(R.id.enable_button)
+
+        var cnt: Int = 0
+        b1.setOnClickListener {
+            t1.setText("${++cnt}")
+        }
+
+        b2.setOnClickListener {
+            if(b2.getText() == "Disable") {
+                b2.setText("Enable")
+                b1.isEnabled = false
+            } else {
+                b2.setText("Disable")
+                b1.isEnabled = true
+            }
+        }
+
+        ----------------------------------------------------------------------------------------*/
+
+        /*-------------------------------Calculator-----------------------------------------------
+
+        setContentView(R.layout.action_events_calc)
+
+        var n1: EditText = findViewById(R.id.num1)
+        var n2: EditText = findViewById(R.id.num2)
+        var res: TextView = findViewById(R.id.res_view)
+        var add: Button = findViewById(R.id.add_button)
+        var sub: Button = findViewById(R.id.sub_button)
+        var mul: Button = findViewById(R.id.mul_button)
+        var div: Button = findViewById(R.id.div_button)
+
+
+        add.setOnClickListener {
+            var x = Integer.parseInt(n1.text.toString())
+            var y = Integer.parseInt(n2.text.toString())
+
+            res.text = "${x + y}"
+        }
+
+        sub.setOnClickListener {
+            var x = Integer.parseInt(n1.text.toString())
+            var y = Integer.parseInt(n2.text.toString())
+
+            res.text = "${x - y}"
+        }
+
+        mul.setOnClickListener {
+            var x = Integer.parseInt(n1.text.toString())
+            var y = Integer.parseInt(n2.text.toString())
+
+            res.text = "${x * y}"
+        }
+
+        div.setOnClickListener {
+            var x = Integer.parseInt(n1.text.toString())
+            var y = Integer.parseInt(n2.text.toString())
+
+            try {
+                res.text = "${x / y}"
+            }
+            catch (e: Exception) {
+                Toast.makeText(this, "INVALID INPUT", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        --------------------------------------------------------------------------------------- */
+
+        /*---------------------------Implicit_intent(URL LAUNCHER)-------------------------------
+
+        setContentView(R.layout.action_events_url_launcher)
+
+        var b1: Button = findViewById(R.id.launch_button)
+        b1.setOnClickListener {
+
+            // creating intent object
+            val intent = Intent()
+
+            // configuring intent
+            intent.apply {                                  // telling intent what to do ?
+                action = Intent.ACTION_VIEW                          // setting the intent action => we want to VIEW something in this intent
+                data = Uri.parse("http://www.youtube.com")    // passing data to intent
+            }
+
+            // calling intent
+
+            // packageManager has the knowledge of all the apps installed
+            // it checks whether some apps exist which can handle the current intent
+            if(intent.resolveActivity(packageManager) == null) {
+                startActivity(intent)
+            }
+            else {
+                Toast.makeText(this, "No Activity Found to handle this intent", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        ---------------------------------------------------------------------------------------*/
+
+        /*------------------------Explicit Intent(Multi-page_App)------------------------------
+
+        see another project (name -> second app)
+
+        ----------------------------------------------------------------------------------------*/
+
+	/*-------------------------------MakeCall Permission-------------------------------------
+	
+private val PERMISSION_REQUEST_PHONE_CALL = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.runtime_permissions_make_call)
+
+        val b1: Button = findViewById(R.id.call_button)
+
+        b1.setOnClickListener {
+                makeCallAfterPermission(it)
+        }
+    }
+
+    private fun makeCallAfterPermission(view: View) {
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) ==
+            PackageManager.PERMISSION_GRANTED) {
+            makeCall()
+        }
+        else {
+            requestCallPermission(view)
+        }
+    }
+
+    private fun requestCallPermission(view: View) {
+
+        // permission rationale is required as it gives app the chance to show extra info. (to user)
+        // of why such permission is needed
+        if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CALL_PHONE)) {
+            var snack = Snackbar.make(view,"We need permission to make a call: Please give permission when asked",
+                Snackbar.LENGTH_INDEFINITE)
+
+            snack.setAction("OK", View.OnClickListener {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CALL_PHONE),
+                    PERMISSION_REQUEST_PHONE_CALL)
+            })
+
+            snack.show()
+        }
+        else {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CALL_PHONE),
+                PERMISSION_REQUEST_PHONE_CALL)
+        }
+    }
+
+    private fun makeCall() {
+        val intent = Intent()
+        intent.apply {
+            action = ACTION_CALL
+            data = Uri.parse("tel: 7631028058")
+        }
+        startActivity(intent)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode == PERMISSION_REQUEST_PHONE_CALL)
+            makeCall()
+        else
+            Toast.makeText(this, "Permission denied to make call", Toast.LENGTH_SHORT). show()
+    }
+
+	------------------------------------------------------------------------------------------*/
+	
+	/*----------------------------------------------------------------------------------------
+
+class MainActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
+    @SuppressLint("QueryPermissionsNeeded")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.tic_tac_toe)
+        var n = 3
+        var moves = n*n
+        var board = Array(n) {Array(n) {'-'} }
+        var x: Int = 0
+        var y: Int = 0
+
+        var turn: Int = 0
+
+        var v00:TextView = findViewById(R.id.view00)
+        var v01:TextView = findViewById(R.id.view01)
+        var v02:TextView = findViewById(R.id.view02)
+        var v10:TextView = findViewById(R.id.view10)
+        var v11:TextView = findViewById(R.id.view11)
+        var v12:TextView = findViewById(R.id.view12)
+        var v20:TextView = findViewById(R.id.view20)
+        var v21:TextView = findViewById(R.id.view21)
+        var v22:TextView = findViewById(R.id.view22)
+        var reset: Button = findViewById(R.id.reset_button)
+        var p1: TextView = findViewById(R.id.player_label_1)
+        var p2: TextView = findViewById(R.id.player_label_2)
+
+        var arr = arrayOf(v00, v01, v02, v10, v11, v12, v20, v21, v22)
+
+        p1.setTextColor(ContextCompat.getColor(this, R.color.accent_color))
+        p1.setTypeface(null, Typeface.BOLD)
+
+        reset.setOnClickListener{
+
+            v00.isEnabled = true
+            v01.isEnabled = true
+            v02.isEnabled = true
+            v10.isEnabled = true
+            v11.isEnabled = true
+            v12.isEnabled = true
+            v20.isEnabled = true
+            v21.isEnabled = true
+            v22.isEnabled = true
+
+            v00.text = ""
+            v01.text = ""
+            v02.text = ""
+            v10.text = ""
+            v11.text = ""
+            v12.text = ""
+            v20.text = ""
+            v21.text = ""
+            v22.text = ""
+            res?.text = "START"
+            for(i in 0 until n) {
+                for(j in 0 until n) {
+                    board[i][j] = '-'
+                }
+            }
+            toggle_player(p1, p2, 0)
+            turn = 0
+        }
+
+        res = findViewById(R.id.result_field)
+
+        v00.setOnClickListener {
+            v00.text = if(turn % 2 == 0) "X" else "O"
+            move(board, 0, 0, turn, arr)
+            turn++
+            toggle_player(p1, p2, turn)
+            v00.isEnabled = false
+        }
+
+        v01.setOnClickListener {
+            v01.text = if(turn % 2 == 0) "X" else "O"
+            move(board, 0, 1, turn, arr)
+            turn++
+            toggle_player(p1, p2, turn)
+            v01.isEnabled = false
+        }
+
+        v02.setOnClickListener {
+            v02.text = if(turn % 2 == 0) "X" else "O"
+            move(board, 0, 2, turn, arr)
+            turn++
+            toggle_player(p1, p2, turn)
+            v02.isEnabled = false
+        }
+
+        v10.setOnClickListener {
+            v10.text = if(turn % 2 == 0) "X" else "O"
+            move(board, 1, 0, turn, arr)
+            turn++
+            toggle_player(p1, p2, turn)
+            v10.isEnabled = false
+        }
+
+        v11.setOnClickListener {
+            v11.text = if(turn % 2 == 0) "X" else "O"
+            move(board, 1, 1, turn, arr)
+            turn++
+            toggle_player(p1, p2, turn)
+            v11.isEnabled = false
+        }
+
+        v12.setOnClickListener {
+            v12.text = if(turn % 2 == 0) "X" else "O"
+            move(board, 1, 2, turn, arr)
+            turn++
+            toggle_player(p1, p2, turn)
+            v12.isEnabled = false
+        }
+
+        v20.setOnClickListener {
+            v20.text = if(turn % 2 == 0) "X" else "O"
+            move(board, 2, 0, turn, arr)
+            turn++
+            toggle_player(p1, p2, turn)
+            v20.isEnabled = false
+        }
+
+        v21.setOnClickListener {
+            v21.text = if(turn % 2 == 0) "X" else "O"
+            move(board, 2, 1, turn, arr)
+            turn++
+            toggle_player(p1, p2, turn)
+            v21.isEnabled = false
+        }
+
+        v22.setOnClickListener {
+            v22.text = if(turn % 2 == 0) "X" else "O"
+            move(board, 2, 2, turn, arr)
+            turn++
+            toggle_player(p1, p2, turn)
+            v22.isEnabled = false
+        }
+    }
+
+    private fun move(board: Array<Array<Char>>, x: Int, y: Int, move: Int, arr: Array<TextView>): Boolean {
+
+        var sz: Int = board.size
+        if(board[x][y] != '-') {
+//            println("NOT FEASIBLE")
+            res?.text = "NOT_FEASIBLE"
+            return false
+        }
+
+        println("true")
+        board[x][y] = if(move % 2 == 1) 'O' else 'X'
+
+        var is_tied = true
+        for(i in 0 until sz) {
+            for(j in 0 until sz) {
+                print("| ${board[i][j]} |")
+                if(board[i][j] == '-')  is_tied = false
+            }
+            println("");
+        }
+
+        // checking for winner
+        // for rows
+        var f = true
+        for(i in 0..sz-1) {
+            f = true
+            for(j in 0..sz-2) {
+                if(board[i][j] != board[i][j + 1]) {
+                    f = false
+                    break
+                }
+            }
+            if(f && (board[i][0] != '-')) {
+                result(move, arr)
+                return true
+            }
+        }
+
+        // for cols
+        f = true
+        for(j in 0..sz-1) {
+            f = true
+            for(i in 0..sz-2) {
+                if(board[i][j] != board[i + 1][j]) {
+                    f = false
+                    break
+                }
+            }
+            if(f && (board[0][j] != '-')) {
+                result(move, arr)
+                return true
+            }
+        }
+
+        f = true
+        var i: Int = 0
+        var j: Int = 0
+        while(i < sz - 1 && j < sz - 1) {
+            if(board[i][j] != board[i + 1][j + 1]) {
+                f = false
+                break;
+            }
+            i++
+            j++
+        }
+        if(f && (board[0][0] != '-')) {
+            result(move, arr)
+            return true
+        }
+
+        f = true
+        i = 0
+        j = sz - 1
+        while(i < sz - 1 && j >= 1) {
+            if(board[i][j] != board[i + 1][j - 1]) {
+                f = false
+                break
+            }
+            i++
+            j--
+        }
+        if(f && (board[0][sz - 1] != '-')) {
+            result(move, arr)
+            return true
+        }
+
+        if(is_tied) {
+//            println("DRAW")
+            res?.text = "DRAW"
+        }
+        else {
+//            println("ONGOING")
+            res?.text = "ONGOING"
+        }
+        return true
+    }
+
+    private fun toggle_player(p1: TextView, p2: TextView, move: Int) {
+        if(move % 2 == 0) {
+            p1.setTextColor(ContextCompat.getColor(this, R.color.accent_color))
+            p1.setTypeface(null, Typeface.BOLD)
+
+            p2.setTextColor(ContextCompat.getColor(this, R.color.primary_color))
+            p2.setTypeface(null, Typeface.NORMAL)
+        }
+        else {
+            p2.setTextColor(ContextCompat.getColor(this, R.color.accent_color))
+            p2.setTypeface(null, Typeface.BOLD)
+
+            p1.setTextColor(ContextCompat.getColor(this, R.color.primary_color))
+            p1.setTypeface(null, Typeface.NORMAL)
+        }
+    }
+
+    private fun result(move: Int, arr: Array<TextView>) {
+        if(move % 2 == 0) res?.text = "X player Won"
+        else res?.text = "O player Won"
+        for(i in arr.indices) {
+            arr[i].isEnabled = false
+        }
+    }
+}
+
+	------------------------------------------------------------------------------------------*/
+
+ /*------------------------------list_view-------------------------------------------------
+
+        setContentView(R.layout.list_view)
+        var citylist = arrayOf("New York", "New Delhi", "Ranchi", "Mumbai","San Francisco")
+        var l1: ListView = findViewById(R.id.city_list)
+
+//        ArrayAdapter is used when you have a simple list of items to display in the ListView.
+//        It takes an array or a list of items as input and converts each item into a view to be displayed in the ListView.
+//        ArrayAdapter provides a default layout for the items
+        var list_adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, citylist)
+
+        l1.adapter = list_adapter
+
+//        The AdapterView is responsible for taking that list of items and showing them in the ListView.
+//        It also helps in handling user interactions with the items.
+//        For example, if the user clicks on an item in the ListView,
+//        the AdapterView will notify you so that you can perform some action based on that click.
+        l1.setOnItemClickListener {AdapterView, view, position, id ->
+            var data = view as TextView
+            Toast.makeText(this, data.text, Toast.LENGTH_SHORT).show()
+            }
+
+        ----------------------------------------------------------------------------------------*/
+
+        /*----------------------------list_view_practice_1---------------------------------------
+
+        setContentView(R.layout.list_view_practice_1)
+            var list = arrayOf("Groceries", "Transportation", "Rent", "Cell Phone", "Utility Bills", "Insurance")
+            var l1: ListView = findViewById(R.id.list_view)
+            var listAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, list)
+            l1.adapter = listAdapter
+
+            l1.setOnItemClickListener { parent, view, position, id ->
+                var expense = view as TextView
+                Toast.makeText(this, expense.text, Toast.LENGTH_LONG).show()
+        }
+
+        ---------------------------------------------------------------------------------------*/
+
+
